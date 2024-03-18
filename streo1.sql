@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2024 at 01:42 PM
+-- Generation Time: Mar 11, 2024 at 09:59 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `profile`
+-- Database: `streo1`
 --
 
 -- --------------------------------------------------------
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `friend` (
   `ID` int(11) NOT NULL,
-  `profileID` int(11) NOT NULL,
+  `profile1ID` int(11) NOT NULL,
   `profile2ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -54,30 +54,30 @@ CREATE TABLE `owner` (
 CREATE TABLE `photo` (
   `ID` int(11) NOT NULL,
   `profileID` int(11) NOT NULL,
-  `url` varchar(128) NOT NULL
+  `url` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `profile`
+-- Struktura tabeli dla tabeli `profil`
 --
 
-CREATE TABLE `profile` (
+CREATE TABLE `profil` (
   `ID` int(11) NOT NULL,
-  `first` int(128) NOT NULL,
-  `lastName` int(128) NOT NULL,
+  `firstName` varchar(128) NOT NULL,
+  `lastName` varchar(128) NOT NULL,
   `profilePhotoID` int(11) NOT NULL,
-  `descriprion` text NOT NULL
+  `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `profiletype`
+-- Struktura tabeli dla tabeli `profiltype`
 --
 
-CREATE TABLE `profiletype` (
+CREATE TABLE `profiltype` (
   `ID` int(11) NOT NULL,
   `profileID` int(11) NOT NULL,
   `type` int(11) NOT NULL
@@ -92,7 +92,8 @@ CREATE TABLE `profiletype` (
 CREATE TABLE `user` (
   `ID` int(11) NOT NULL,
   `email` varchar(128) NOT NULL,
-  `password` varchar(128) NOT NULL
+  `password` varchar(128) NOT NULL,
+  `nickname` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -103,37 +104,31 @@ CREATE TABLE `user` (
 -- Indeksy dla tabeli `friend`
 --
 ALTER TABLE `friend`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `profileID` (`profileID`),
-  ADD KEY `profile2ID` (`profile2ID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indeksy dla tabeli `owner`
 --
 ALTER TABLE `owner`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `owner_ibfk_1` (`userID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indeksy dla tabeli `photo`
 --
 ALTER TABLE `photo`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `profileID` (`profileID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
--- Indeksy dla tabeli `profile`
+-- Indeksy dla tabeli `profil`
 --
-ALTER TABLE `profile`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `profilePhotoID` (`profilePhotoID`);
+ALTER TABLE `profil`
+  ADD PRIMARY KEY (`ID`);
 
 --
--- Indeksy dla tabeli `profiletype`
+-- Indeksy dla tabeli `profiltype`
 --
-ALTER TABLE `profiletype`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `profileID` (`profileID`);
+ALTER TABLE `profiltype`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indeksy dla tabeli `user`
@@ -164,15 +159,15 @@ ALTER TABLE `photo`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `profile`
+-- AUTO_INCREMENT for table `profil`
 --
-ALTER TABLE `profile`
+ALTER TABLE `profil`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `profiletype`
+-- AUTO_INCREMENT for table `profiltype`
 --
-ALTER TABLE `profiletype`
+ALTER TABLE `profiltype`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -180,41 +175,6 @@ ALTER TABLE `profiletype`
 --
 ALTER TABLE `user`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `friend`
---
-ALTER TABLE `friend`
-  ADD CONSTRAINT `friend_ibfk_1` FOREIGN KEY (`profileID`) REFERENCES `profile` (`ID`),
-  ADD CONSTRAINT `friend_ibfk_2` FOREIGN KEY (`profile2ID`) REFERENCES `friend` (`ID`);
-
---
--- Constraints for table `owner`
---
-ALTER TABLE `owner`
-  ADD CONSTRAINT `owner_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`ID`);
-
---
--- Constraints for table `photo`
---
-ALTER TABLE `photo`
-  ADD CONSTRAINT `photo_ibfk_1` FOREIGN KEY (`profileID`) REFERENCES `profile` (`ID`);
-
---
--- Constraints for table `profile`
---
-ALTER TABLE `profile`
-  ADD CONSTRAINT `profile_ibfk_1` FOREIGN KEY (`profilePhotoID`) REFERENCES `photo` (`ID`);
-
---
--- Constraints for table `profiletype`
---
-ALTER TABLE `profiletype`
-  ADD CONSTRAINT `profiletype_ibfk_1` FOREIGN KEY (`profileID`) REFERENCES `profile` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
